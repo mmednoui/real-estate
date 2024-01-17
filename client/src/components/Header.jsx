@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Header() {
   return (
-    <div className="px-10 py-3 bg-emerald-50 flex items-center justify-center sm:justify-between">
+    <div className="px-10 py-3 bg-gray-50 flex items-center justify-center sm:justify-between">
       <ul className="flex ">
         <Link to="/">
           <li className="hidden sm:inline font-bold cursor-pointer p-2 hover:opacity-50 duration-150 ease-out ">
@@ -47,9 +47,9 @@ function Header() {
             />
           </div>
         </form>
-        <Link to="/signin">
-          <button class="bg-emerald-500 hover:bg-emerald-400 text-white font-bold py-2 px-4 rounded mx-3">
-            Sign In
+        <Link to="/signup">
+          <button class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg mx-3">
+            Sign Up
           </button>
         </Link>
       </div>
