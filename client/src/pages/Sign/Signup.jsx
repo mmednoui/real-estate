@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
+  const [err, setErr] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -25,19 +25,20 @@ function Signup() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (data.success === false) {
-        setError(date.message);
+
+      if ((data.success = "false")) {
         setLoading(false);
+        setErr(data.message);
         return;
       }
       setLoading(false);
-      setError(null);
-      navigate("/signin");
+      setErr(null);
     } catch (error) {
       setLoading(false);
-      setError(error.message);
+      setErr(error.message);
     }
   };
+
   return (
     <section className="bg-gray-50">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -118,6 +119,7 @@ function Signup() {
                 </a>
               </Link>
             </p>
+            {err && <p>{err}</p>}
           </div>
         </div>
       </div>

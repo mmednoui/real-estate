@@ -27,8 +27,9 @@ function Signin() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (data.success === false) {
-        setError(date.message);
+      console.log("dataaaaaa", data);
+      if ((data.success = "false")) {
+        setError(data.message);
         setLoading(false);
         return;
       }
@@ -116,6 +117,7 @@ function Signin() {
                 </button>
               </div>
             </form>
+
             <p className="mt-10 text-center text-sm text-gray-500">
               Not a member?{" "}
               <Link to="/signup">
@@ -127,6 +129,17 @@ function Signin() {
                 </a>
               </Link>
             </p>
+
+            {error && (
+              <div
+                class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-2  text-xs"
+                role="alert"
+              >
+                <p class="font-bold">{error}</p>
+                <p>Please verify you email and password</p>
+              </div>
+            )}
+
             <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
               <p className="mx-4 mb-0 text-center font-semibold">Or</p>
             </div>
