@@ -5,11 +5,11 @@ import { FaGithub } from "react-icons/fa";
 
 function Signin() {
   return (
-    <section class="bg-gray-50">
-      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
-          <div class="flex flex-col p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 class=" self-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
+    <section className="bg-gray-50">
+      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 ">
+          <div className="flex flex-col p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 className=" self-center text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
               Sign in to your account
             </h1>
             <form className="space-y-6" action="#" method="POST">
@@ -81,17 +81,17 @@ function Signin() {
                 </a>
               </Link>
             </p>
-            <div class="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
-              <p class="mx-4 mb-0 text-center font-semibold">Or</p>
+            <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+              <p className="mx-4 mb-0 text-center font-semibold">Or</p>
             </div>
             <div className="flex items-center justify-around">
-              <button class="flex items-center  bg-white border border-gray-300 rounded-lg shadow-md px-3 py-3.5 text-sm font-medium text-gray-800 ">
+              <button className="flex items-center  bg-white border border-gray-300 rounded-lg shadow-md px-3 py-3.5 text-sm font-medium text-gray-800 ">
                 <FcGoogle className="text-lg mr-2" />
                 <span>Continue with Google</span>
               </button>
               <button
                 type="button"
-                class="flex items-center text-white bg-[#24292F] hover:bg-[#24292F]/90 border border-gray-300 shadow-md font-medium rounded-lg text-sm px-3 py-3.5 text-center  "
+                className="flex items-center text-white bg-[#24292F] hover:bg-[#24292F]/90 border border-gray-300 shadow-md font-medium rounded-lg text-sm px-3 py-3.5 text-center  "
               >
                 <FaGithub className="text-lg mr-2" />
                 Sign in with Github

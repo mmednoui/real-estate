@@ -19,7 +19,7 @@ function Header() {
       </ul>
       <div className="flex ">
         <form className="flex items-center">
-          <label for="simple-search" className="sr-only">
+          <label htmlFor="simple-search" className="sr-only">
             Search
           </label>
           <div className="relative w-full">
@@ -31,9 +31,9 @@ function Header() {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
             </div>
@@ -48,7 +48,7 @@ function Header() {
           </div>
         </form>
         <Link to="/signup">
-          <button class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg mx-3">
+          <button className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg mx-3">
             Sign Up
           </button>
         </Link>
