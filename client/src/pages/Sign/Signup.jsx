@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../../components/OAuth";
+import { FaGithub } from "react-icons/fa";
 
 function Signup() {
   const [formData, setFormData] = useState({});
@@ -124,6 +126,17 @@ function Signup() {
                 </a>
               </Link>
             </p>
+            <div className="flex items-center justify-around">
+              <OAuth />
+              <button
+                type="button"
+                className="flex items-center text-white bg-[#24292F] hover:bg-[#24292F]/90 border border-gray-300 shadow-md font-medium rounded-lg text-sm px-3 py-3.5 text-center  "
+              >
+                <FaGithub className="text-lg mr-2" />
+                Sign in with Github
+              </button>
+            </div>
+
             {err && <p className="bg-red-500">{err}</p>}
           </div>
         </div>

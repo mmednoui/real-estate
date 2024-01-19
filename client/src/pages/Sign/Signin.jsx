@@ -8,6 +8,7 @@ import {
   signInFail,
   signInStart,
 } from "../../app/user/userSlice.js";
+import OAuth from "../../components/OAuth.jsx";
 
 function Signin() {
   const [formData, setFormData] = useState({});
@@ -152,10 +153,7 @@ function Signin() {
               <p className="mx-4 mb-0 text-center font-semibold">Or</p>
             </div>
             <div className="flex items-center justify-around">
-              <button className="flex items-center  bg-white border border-gray-300 rounded-lg shadow-md px-3 py-3.5 text-sm font-medium text-gray-800 ">
-                <FcGoogle className="text-lg mr-2" />
-                <span>Continue with Google</span>
-              </button>
+              <OAuth />
               <button
                 type="button"
                 className="flex items-center text-white bg-[#24292F] hover:bg-[#24292F]/90 border border-gray-300 shadow-md font-medium rounded-lg text-sm px-3 py-3.5 text-center  "
