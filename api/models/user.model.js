@@ -18,7 +18,8 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String,
-      default: "../../client/public/avatar.jpg",
+      default:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-NWzQbWlTxc_jmOOx0WWky2LjmFKYjA4Wz266lDfTmXhij3DJhtY9gKT382Zh5REgjFc&usqp=CAU",
     },
   },
   { timestamps: true }

@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import { useSelector } from "react-redux";
 function Header() {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
-    <div className="px-10 py-3 bg-gray-50 flex items-center justify-center sm:justify-between">
+    <div className="px-10 py-3 bg-gray-200 flex items-center justify-center sm:justify-between">
       <ul className="flex ">
         <Link to="/">
           <li className="hidden sm:inline font-bold cursor-pointer p-2 hover:opacity-50 duration-150 ease-out ">
@@ -47,11 +49,22 @@ function Header() {
             />
           </div>
         </form>
-        <Link to="/signup">
-          <button className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg mx-3">
-            Sign Up
-          </button>
-        </Link>
+
+        {currentUser ? (
+          <Link to="/profile">
+            <img
+              className="rounded-full h-12 w-12 object-cover mx-2"
+              src={currentUser.avatar}
+              alt="profile"
+            />{" "}
+          </Link>
+        ) : (
+          <Link to="/signup">
+            <button className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-lg mx-3">
+              Sign Up
+            </button>
+          </Link>
+        )}
       </div>
     </div>
   );
