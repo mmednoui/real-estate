@@ -17,6 +17,7 @@ function Signup() {
     e.preventDefault();
     try {
       setLoading(true);
+
       const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
@@ -24,18 +25,22 @@ function Signup() {
         },
         body: JSON.stringify(formData),
       });
+
       const data = await res.json();
 
-      if ((data.success = "false")) {
+      console.log(data);
+      if (data.success === "false") {
         setLoading(false);
         setErr(data.message);
         return;
+      } else {
+        setLoading(false);
+        setErr(null);
+        navigate("/signin");
       }
+    } catch (err) {
       setLoading(false);
-      setErr(null);
-    } catch (error) {
-      setLoading(false);
-      setErr(error.message);
+      setErr(err.message);
     }
   };
 
@@ -119,7 +124,7 @@ function Signup() {
                 </a>
               </Link>
             </p>
-            {err && <p>{err}</p>}
+            {err && <p className="bg-red-500">{err}</p>}
           </div>
         </div>
       </div>

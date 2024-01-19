@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  signInDone,
+  signInFail,
+  signInStart,
+} from "../../app/user/userSlice.js";
 
 function Signin() {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+
+  const { error, loading } = useSelector((state) => state.user);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({
@@ -18,7 +26,7 @@ function Signin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      dispatch(signInStart());
       const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -27,18 +35,18 @@ function Signin() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log("dataaaaaa", data);
-      if ((data.success = "false")) {
-        setError(data.message);
-        setLoading(false);
+
+      if (data.success === "false") {
+        dispatch(signInFail(data.message));
+
         return;
+      } else {
+        dispatch(signInDone(data));
+
+        navigate("/");
       }
-      setLoading(false);
-      setError(null);
-      navigate("/");
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
+      dispatch(signInFail(data.message));
     }
   };
   return (
@@ -132,10 +140,10 @@ function Signin() {
 
             {error && (
               <div
-                class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-2  text-xs"
+                className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-2  text-xs"
                 role="alert"
               >
-                <p class="font-bold">{error}</p>
+                <p className="font-bold">{error}</p>
                 <p>Please verify you email and password</p>
               </div>
             )}
