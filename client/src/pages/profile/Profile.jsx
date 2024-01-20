@@ -9,14 +9,26 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../../firebase.js";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  signOutUserStart,
+  signOutUserFailure,
+  signOutUserSuccess,
+} from "../../app/user/userSlice.js";
+import { useNavigate } from "react-router-dom";
 function Profile() {
   const fileRef = useRef(null);
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+
+  const navigate = useNavigate();
   useEffect(() => {
     if (file) {
       handleFileUpload(file);
@@ -47,8 +59,39 @@ function Profile() {
       }
     );
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+
+      dispatch(updateUserSuccess(data));
+      setUpdateSuccess(true);
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserSuccess());
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
-    <div class="bg-gray-100 dark:bg-gray-800 transition-colors duration-300">
+    <div class="bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
       <div class="container mx-auto p-4">
         <div class="bg-white dark:bg-gray-700 shadow rounded-lg p-6">
           <div className="flex justify-between my-5">
@@ -92,25 +135,28 @@ function Profile() {
             </div>
           </div>
 
-          <form>
+          <form onSubmit={handleSubmit}>
             <div class="mb-4">
               <input
                 onChange={handleChange}
-                type="username  "
-                value={currentUser.username}
+                type="username"
+                id="username"
+                defaultValue={currentUser.username}
                 class="border p-2 rounded w-full"
               />
             </div>
             <div class="mb-4">
               <input
                 onChange={handleChange}
+                id="email"
                 type="email"
-                value={currentUser.email}
+                defaultValue={currentUser.email}
                 class="border p-2 rounded w-full"
               />
             </div>{" "}
             <div class="mb-4">
               <input
+                id="password"
                 onChange={handleChange}
                 type="password"
                 placeholder="Password"
@@ -119,18 +165,29 @@ function Profile() {
             </div>
             <div className="flex items-center justify-evenly">
               <button
+                disabled={loading}
                 type="submit"
                 id="theme-toggle"
                 class="px-4 py-2 rounded bg-emerald-600 self-center my-5 text-white  hover:bg-emerald-500 focus:outline-none transition-colors"
               >
-                Save Changes
+                {loading ? "Loading..." : "Save Changes"}
               </button>
-              <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded inline-flex items-center">
+              <button
+                onClick={handleSignOut}
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded inline-flex items-center"
+              >
                 <IoLogOut className="text-2xl mr-2" />
                 <span>Sign Out</span>
               </button>
             </div>
           </form>
+          <div
+            hidden={!updateSuccess}
+            class="p-4 mb-4 text-sm  text-green-800 rounded-lg bg-green-50 max-w-xl mx-auto text-center"
+            role="alert"
+          >
+            {updateSuccess ? "User is updated successfully!" : ""}
+          </div>
         </div>
       </div>
     </div>

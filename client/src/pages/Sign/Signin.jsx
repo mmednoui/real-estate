@@ -47,7 +47,7 @@ function Signin() {
         navigate("/");
       }
     } catch (error) {
-      dispatch(signInFail(data.message));
+      dispatch(signInFail(error.message));
     }
   };
   return (
