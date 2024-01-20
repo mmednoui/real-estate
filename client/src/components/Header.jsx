@@ -6,7 +6,7 @@ function Header() {
 
   return (
     <div className="px-10 py-3 bg-gray-200 flex items-center justify-center sm:justify-between">
-      <ul className="flex ">
+      <ul className="flex items-center">
         <Link to="/">
           <li className="hidden sm:inline font-bold cursor-pointer p-2 hover:opacity-50 duration-150 ease-out ">
             Home
@@ -19,6 +19,7 @@ function Header() {
           </li>
         </Link>
       </ul>
+
       <div className="flex ">
         <form className="flex items-center">
           <label htmlFor="simple-search" className="sr-only">
@@ -51,12 +52,15 @@ function Header() {
         </form>
 
         {currentUser ? (
-          <Link to="/profile">
+          <Link
+            to="/profile"
+            className="flex items-center font-bold text-emerald-600"
+          >
             <img
-              className="rounded-full h-12 w-12 object-cover mx-2"
+              className="rounded-full h-12 w-12 object-cover mx-2 border border-emerald-500"
               src={currentUser.avatar}
               alt="profile"
-            />{" "}
+            />
           </Link>
         ) : (
           <Link to="/signup">
