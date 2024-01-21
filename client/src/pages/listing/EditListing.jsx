@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   getDownloadURL,
   getStorage,
@@ -7,15 +7,14 @@ import {
 } from "firebase/storage";
 import { app } from "../../firebase.js";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 function ListingCreation() {
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     imgUrls: [],
     name: "",
@@ -30,8 +29,21 @@ function ListingCreation() {
     furnished: false,
   });
   const [images, setImages] = useState([]);
+  const params = useParams();
+  useEffect(() => {
+    const fetchListing = async () => {
+      const listingId = params.listingId;
+      const res = await fetch(`/api/listing/get/${listingId}`);
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setFormData(data);
+    };
 
-  console.log(formData);
+    fetchListing();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,7 +53,7 @@ function ListingCreation() {
 
       setLoading(true);
       setError(false);
-      const res = await fetch("/api/listing/create", {
+      const res = await fetch(`/api/listing/update/${params.listingId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -158,7 +170,7 @@ function ListingCreation() {
       <div className="space-y-12">
         <div className="border-b border-gray-900/10 pb-12">
           <h1 className="text-base font-semibold leading-7 text-gray-900">
-            Create Your Listing
+            Edit Your Listing
           </h1>
           <p className="mt-1 text-sm leading-6 text-gray-600">
             All the fields down here are required
@@ -246,7 +258,6 @@ function ListingCreation() {
                     >
                       <span>Upload a file</span>
                       <input
-                        required
                         onChange={(e) => setImages(e.target.files)}
                         id="imgUrls"
                         name="imgUrls"
