@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { IoLogOut } from "react-icons/io5";
+import { Link } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -25,6 +26,8 @@ function Profile() {
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
   const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [showListingsError, setShowListingsError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -88,6 +91,21 @@ function Profile() {
       console.log(error);
     }
   };
+  const handleShowListings = async () => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingsError(true);
+        return;
+      }
+
+      setUserListings(data);
+    } catch (error) {
+      setShowListingsError(true);
+    }
+  };
   return (
     <div class="bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
       <div class="container mx-auto p-4">
@@ -132,7 +150,6 @@ function Profile() {
               </p>
             </div>
           </div>
-
           <form onSubmit={handleSubmit}>
             <div class="mb-4">
               <input
@@ -179,6 +196,47 @@ function Profile() {
               </button>
             </div>
           </form>
+          <button className="p-2" onClick={handleShowListings}>
+            Show Listings
+          </button>
+          <p className="text-red-700 mt-5">
+            {showListingsError ? "Error showing listings" : ""}
+          </p>
+          <h1 className="text-center mt-7 text-2xl font-semibold">
+            Your Listings
+          </h1>
+          {userListings && userListings.length > 0 && (
+            <div className="flex flex-wrap justify-between mt-10 ">
+              {userListings.map((listing) => (
+                <div
+                  key={listing._id}
+                  className="border rounded-lg p-3 flex my-2 justify-between items-center "
+                  style={{ width: "30%" }}
+                >
+                  <Link to={`/listing/${listing._id}`}>
+                    <img
+                      src={listing.imgUrls[0]}
+                      alt="listing cover"
+                      className="h-28 w-28 object-contain"
+                    />
+                  </Link>
+                  <Link
+                    className="text-slate-700 font-semibold  hover:underline w-1/4 "
+                    to={`/listing/${listing._id}`}
+                  >
+                    <p>{listing.name}</p>
+                  </Link>
+                  <div className="flex flex-col item-center">
+                    <button className="text-red-700 uppercase">Delete</button>
+                    <Link to={`/update-listing/${listing._id}`}>
+                      <button className="text-green-700 uppercase">Edit</button>
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
           <div
             hidden={!updateSuccess}
             class="p-4 mb-4 text-sm  text-green-800 rounded-lg bg-green-50 max-w-xl mx-auto text-center"
