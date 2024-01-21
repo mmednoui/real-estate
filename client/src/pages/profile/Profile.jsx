@@ -106,6 +106,24 @@ function Profile() {
       setShowListingsError(true);
     }
   };
+  const handleListingDelete = async (listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div class="bg-gray-50 dark:bg-gray-800 transition-colors duration-300">
       <div class="container mx-auto p-4">
@@ -202,41 +220,50 @@ function Profile() {
           <p className="text-red-700 mt-5">
             {showListingsError ? "Error showing listings" : ""}
           </p>
-          <h1 className="text-center mt-7 text-2xl font-semibold">
-            Your Listings
-          </h1>
+
           {userListings && userListings.length > 0 && (
-            <div className="flex flex-wrap justify-between mt-10 ">
-              {userListings.map((listing) => (
-                <div
-                  key={listing._id}
-                  className="border rounded-lg p-3 flex my-2 justify-between items-center "
-                  style={{ width: "30%" }}
-                >
-                  <Link to={`/listing/${listing._id}`}>
-                    <img
-                      src={listing.imgUrls[0]}
-                      alt="listing cover"
-                      className="h-28 w-28 object-contain"
-                    />
-                  </Link>
-                  <Link
-                    className="text-slate-700 font-semibold  hover:underline w-1/4 "
-                    to={`/listing/${listing._id}`}
+            <div>
+              <h1 className="text-center mt-7 text-2xl font-semibold">
+                Your Listings
+              </h1>
+              <div className="flex flex-wrap justify-between mt-10 ">
+                {userListings.map((listing) => (
+                  <div
+                    key={listing._id}
+                    className="border rounded-lg p-3 flex my-2 justify-between items-center "
+                    style={{ width: "30%" }}
                   >
-                    <p>{listing.name}</p>
-                  </Link>
-                  <div className="flex flex-col item-center">
-                    <button className="text-red-700 uppercase">Delete</button>
-                    <Link to={`/update-listing/${listing._id}`}>
-                      <button className="text-green-700 uppercase">Edit</button>
+                    <Link to={`/listing/${listing._id}`}>
+                      <img
+                        src={listing.imgUrls[0]}
+                        alt="listing cover"
+                        className="h-28 w-28 object-contain"
+                      />
                     </Link>
+                    <Link
+                      className="text-slate-700 font-semibold  hover:underline w-1/4 "
+                      to={`/listing/${listing._id}`}
+                    >
+                      <p>{listing.name}</p>
+                    </Link>
+                    <div className="flex flex-col item-center">
+                      <button
+                        onClick={() => handleListingDelete(listing._id)}
+                        className="text-red-700 uppercase"
+                      >
+                        Delete
+                      </button>
+                      <Link to={`/update-listing/${listing._id}`}>
+                        <button className="text-green-700 uppercase">
+                          Edit
+                        </button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           )}
-
           <div
             hidden={!updateSuccess}
             class="p-4 mb-4 text-sm  text-green-800 rounded-lg bg-green-50 max-w-xl mx-auto text-center"
