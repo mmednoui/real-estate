@@ -13,8 +13,6 @@ import {
   updateUserStart,
   updateUserSuccess,
   updateUserFailure,
-  signOutUserStart,
-  signOutUserFailure,
   signOutUserSuccess,
 } from "../../app/user/userSlice.js";
 import { useNavigate } from "react-router-dom";

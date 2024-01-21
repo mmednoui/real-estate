@@ -5,16 +5,16 @@ function Header() {
   const { currentUser } = useSelector((state) => state.user);
 
   return (
-    <div className="px-10 py-3 bg-gray-200 flex items-center justify-center sm:justify-between">
+    <div className="px-10 py-3 bg-emerald-500 flex items-center justify-center sm:justify-between">
       <ul className="flex items-center">
         <Link to="/">
-          <li className="hidden sm:inline font-bold cursor-pointer p-2 hover:opacity-50 duration-150 ease-out ">
+          <li className="hidden sm:inline text-white font-bold cursor-pointer p-2 hover:opacity-50 duration-150 ease-out ">
             Home
           </li>
         </Link>
 
         <Link to="/about">
-          <li className=" hidden sm:inline font-bold cursor-pointer p-2 hover:opacity-50 duration-150 ease-out ">
+          <li className=" hidden sm:inline text-white font-bold cursor-pointer p-2 hover:opacity-50 duration-150 ease-out ">
             About
           </li>
         </Link>
