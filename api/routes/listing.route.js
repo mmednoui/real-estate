@@ -3,6 +3,7 @@ import {
   createListing,
   deleteListing,
   getListing,
+  getListings,
   updateListing,
 } from "../controllers/listing.controller.js";
 import { verifyUser } from "../utils/verifyUser.js";
@@ -12,5 +13,5 @@ listingRouter.post("/create", verifyUser, createListing);
 listingRouter.delete("/delete/:id", verifyUser, deleteListing);
 listingRouter.post("/update/:id", verifyUser, updateListing);
 listingRouter.get("/get/:id", getListing);
-
+listingRouter.get("/get", getListings);
 export default listingRouter;
