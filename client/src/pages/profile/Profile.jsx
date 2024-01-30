@@ -151,6 +151,12 @@ function Profile() {
                 className="cursor-pointer rounded-full aspect-square w-16 lg:h-20 lg:w-20 border border-emerald-500"
                 alt="profile"
               />
+              <Link
+                to="/create-listing"
+                class="px-4 py-2 rounded bg-emerald-600 self-center my-5 text-white  hover:bg-emerald-500 focus:outline-none transition-colors"
+              >
+                Create Listing
+              </Link>
               <p className="text-sm text-center self-center ">
                 {fileUploadError ? (
                   <span className="text-red-700">
